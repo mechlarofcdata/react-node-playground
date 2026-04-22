@@ -1,0 +1,13 @@
+body {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #e8edf5 0%, #f5f7fa 60%, #eef1f7 100%);
+  z-index: 0;
+}
+.admin-login-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 420px;
+  padding: 24px;
+}
