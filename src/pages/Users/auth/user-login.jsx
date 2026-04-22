@@ -65,6 +65,7 @@ function UserLogin() {
                 <div>Don't have an account?{" "}
                     <Link to="/register">Go to Register</Link>
                 </div>
+                <Link to="/layout">Go to Main</Link>
             </div>
         </div>
     )

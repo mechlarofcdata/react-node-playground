@@ -119,7 +119,7 @@ function UserRegister() {
       </form>
 
       <div>Already have an account?{" "}
-        <Link to="/">Go to Login</Link>        
+        <Link to="/login">Go to Login</Link>        
       </div>
     
     </div>
