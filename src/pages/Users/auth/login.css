@@ -1,0 +1,165 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Sora", sans-serif;
+  background: #f4f6fb;
+}
+
+.split-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.left-panel {
+  flex: 1;
+  background: linear-gradient(145deg, #0f3460, #185fa5);
+  color: white;
+  padding: 60px;
+  position: relative;
+}
+
+.brand-logo {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.brand-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.tagline {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.tagline em {
+  color: #93c5fd;
+  font-style: normal;
+}
+
+.sub {
+  margin-top: 10px;
+  opacity: 0.8;
+}
+
+.features {
+  margin-top: 30px;
+}
+
+.feat {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.right-panel {
+  width: 480px;
+  background: #fff;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.form-sub {
+  font-size: 13px;
+  color: #6b7a94;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 2px solid #eee;
+  margin: 20px 0;
+}
+
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  color: #9aa3b2;
+}
+
+.tab.active {
+  color: #185fa5;
+  border-bottom: 2px solid #185fa5;
+}
+
+label {
+  margin-top: 15px;
+  display: block;
+  font-size: 12px;
+}
+
+input {
+  width: 100%;
+  height: 44px;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.pw-row {
+  position: relative;
+}
+
+.pw-eye {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.btn-login {
+  margin-top: 20px;
+  height: 45px;
+  background: #185fa5;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+
+.divider-text {
+  margin: 0 10px;
+  font-size: 12px;
+}
+
+.btn-google {
+  height: 44px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+}
+
+.signup-row {
+  margin-top: 20px;
+  font-size: 12px;
+}

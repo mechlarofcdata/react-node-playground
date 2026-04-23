@@ -1,164 +1,282 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./profile.css";
 
+// user profile functional component 
 function UserProfile() {
 
-    const [ error, setError ] = useState("");
+  // naviagte obj initialize
+  const navigate = useNavigate();
 
-    const [ data, setData ] = useState({
+  // error state object 
+  const [error, setError] = useState("");
+
+  // user data object 
+  const [data, setData] = useState({
+    firstName: "",
+    lastName: "",
+    userName: "",
+    email: "",
+    bio: "",
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  // initialize default user 
+  useEffect(() => {
+
+    // get data from browser local storage and store it as a JS obj
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    console.log(storedUser);
+
+    if (!storedUser) {
+      // create default user if none exists
+      const defaultUser = {
+        userName: "User1",
+        password: "1234",
         firstName: "Aditi",
         lastName: "Shukla",
-        userName: "X-N-aditi",
         email: "aditi@gmail.com",
         bio: "Do it like it is a piece of cake for you",
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: ""
-    });
+      };
 
-    const handleChange = (e) => {
-        setData({...data, [e.target.name]: e.target.value});
+      localStorage.setItem("user", JSON.stringify(defaultUser));
+
+      // updating previous state dta
+      setData((prev) => ({ ...prev, ...defaultUser }));
+    } else {
+      setData((prev) => ({ ...prev, ...storedUser }));
     }
+  }, []);
 
-    const handleSubmit =(e) => {
-        e.preventDefault();
-        console.log("First Name: ", data.firstName);
-        console.log("Last name: ", data.lastName);
-        console.log("UserName: ", data.userName);
-        console.log("Email: ", data.email);
-        console.log("Bio: ", data.bio);
-    }
+  // handle input change
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
 
-    const handlePasswordUpdt = (e) => {
-        if(data.newPassword !== data.confirmPassword) {
-            setError("Password do not match");
-            return;
-        }
+  // save profile
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Profile Saved:", data);
+    const updatedUser = {
+      userName: data.userName,
+      password: data.password,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      bio: data.bio,
     };
 
-    return (
-        <div>
-            <div className='main'>
-                <aside className='LeftBar'>
-                    <div className='photo'>AS</div>
-                    <div>Aditi Shukla</div>
-                    <div>@X-N-aditi</div>
-                </aside>
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    alert("Profile updated successfully");
+  };
 
-                <div className='RightBar'>
-                    <div>
-                        <div>Personal information</div>
-                        <div>Update your name, email, and bio.</div>
-                    </div>
-                    <div>
-                        <form onSubmit={handleSubmit}>
+  // update password
+  const handlePasswordUpdt = (e) => {
+    e.preventDefault();
 
-                            <div>
-                                <label>First Name</label>
-                                <input
-                                type='text'
-                                name='firstName'
-                                placeholder='Enter your First Name'
-                                value={data.firstName}
-                                onChange={handleChange}
-                                 />
-                            </div>
+    const storedUser = JSON.parse(localStorage.getItem("user"));
 
-                            <div>
-                                <label>Last Name</label>
-                                <input
-                                type='text'
-                                name='lastName'
-                                placeholder='Enter your Last Name'
-                                value={data.lastName}
-                                onChange={handleChange}
-                                 />
-                            </div>
+    // checking current entered pw is same with stored or not 
+    if (data.currentPassword !== storedUser.password) {
+      setError("Current password is incorrect");
+      return;
+    }
 
-                            <div>
-                                <label>UserName</label>
-                                <input
-                                type='text'
-                                name='userName'
-                                placeholder='Enter your UserName'
-                                value={data.userName}
-                                onChange={handleChange}
-                                 />
-                            </div>
+    // checking new password and Confirm pw are same or not
+    if (data.newPassword !== data.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
 
-                            <div>
-                                <label>Email</label>
-                                <input
-                                type='email'
-                                name='email'
-                                placeholder='Enter your Email'
-                                value={data.email}
-                                onChange={handleChange}
-                                 />
-                            </div>
+    const updatedUser = {
+      ...storedUser,   // take all user data from storage
+      password: data.newPassword,
+    };
 
-                            <div>
-                                <label>Bio</label>
-                                <input
-                                type='text'
-                                name='bio'
-                                placeholder='Enter your Bio'
-                                value={data.bio}
-                                onChange={handleChange}
-                                 />
-                            </div>
-                            <button type='submit'>Save</button>
-                            <button>Cancel</button>
-                        </form>
-                    </div>
+    localStorage.setItem("user", JSON.stringify(updatedUser));
 
-                    <div>
-                        <div>
-                            <div>Change password</div>
-                            <div>Keep your account secure with a strong password.</div>
-                        </div>
+    setData((prev) => ({
+      ...prev,
+      password: data.newPassword,
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    }));
 
-                        <form onSubmit={handleSubmit}>
-                            <div>
-                                <label>Current Password</label>
-                                <input
-                                type='password'
-                                name='currentPassword'
-                                placeholder='Enter your current password'
-                                value={data.currentPassword}
-                                onChange={handleChange}
-                                />
-                            </div>
+    setError("");
+    alert("Password updated successfully");
+  };
 
-                            <div>
-                                <label>New Password</label>
-                                <input
-                                type='password'
-                                name='newPassword'
-                                placeholder='Enter your new password'
-                                value={data.newPassword}
-                                onChange={handleChange}
-                                />
-                            </div>
+  // logout
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");  // remove logged-In status from local storage
+    navigate("/login");
+  };
 
-                            <div>
-                                <label>Confirm new password</label>
-                                <input
-                                type='password'
-                                name='confirmPassword'
-                                placeholder='Enter to confirm your password'
-                                value={data.confirmPassword}
-                                onChange={handleChange} 
-                                />
-                            </div>
+  return (
+    <div className="main">
+      <aside className="sidebar" style={{ width: "300px" }}>
+        <div className="sidebar-card">
 
-                            <button type='submit'>Update Password</button>
-                            <button>Cancel</button>
-                        </form>
-                    </div>
-                </div>
+          {/* user first name and last name first char for using it in ava */}
+          <div className="profile-avatar">
+            {data.firstName[0]}
+            {data.lastName[0]}
+          </div>
+
+          {/* user first and last name */}
+          <div className="profile-name">
+            {data.firstName} {data.lastName}
+          </div>
+          <div className="profile-username">{data.userName}</div>
+          <div className="profile-badge">
+            <span className="online-dot"></span>Online
+          </div>
+
+          <div className="stat-row">
+            <div className="stat">
+              <div className="stat-val">23</div>
+              <div className="stat-label">Posts read</div>
             </div>
+            <div className="stat">
+              <div className="stat-val">Apr 10</div>
+              <div className="stat-label">Joined</div>
+            </div>
+          </div>
         </div>
-    );
+
+        {/* logout button */}
+        <div className="card" style={{ padding: "14px" }}>
+          <button
+            onClick={handleLogout}
+            style={{
+              color: "#e53e3e",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              fontWeight: "600",
+            }}>
+            Sign out
+          </button>
+        </div>
+      </aside>
+
+      <div className="content">
+        {/* profile section for updting */}
+        <div className="card">
+          <div className="card-header">
+            <div>
+              <div className="card-title">Personl Information</div>
+              <div className="card-sub">
+                Update your name, email, and bio.
+              </div>
+            </div>
+            <span className="tag tag-green">Saved</span>
+          </div>
+
+          <form onSubmit={handleSubmit}>
+            <div className="grid2">
+              <div className="form-group">
+                <label>First Name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={data.firstName}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Last Name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={data.lastName}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>UserName</label>
+              <input
+                type="text"
+                name="userName"
+                value={data.userName}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                value={data.email}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Bio</label>
+              <textarea
+                name="bio"
+                value={data.bio}
+                onChange={handleChange}
+              />
+            </div>
+
+            <button type="submit" className="btn btn-primary">
+              Save changes
+            </button>
+          </form>
+        </div>
+
+        {/* Password updating section */}
+        <div className="card">
+          <div className="card-header">
+            <div>
+              <div className="card-title">Chnge password</div>
+            </div>
+          </div>
+
+          <form onSubmit={handlePasswordUpdt}>
+            <input
+              type="password"
+              name="currentPassword"
+              placeholder="Current password"
+              value={data.currentPassword}
+              onChange={handleChange}
+            />
+
+            <input
+              type="password"
+              name="newPassword"
+              placeholder="New password"
+              value={data.newPassword}
+              onChange={handleChange}
+            />
+
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm password"
+              value={data.confirmPassword}
+              onChange={handleChange}
+            />
+
+            {error && <p style={{ color: "red" }}>{error}</p>}
+
+            <button type="submit" className="btn btn-primary">
+              Update Password
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default UserProfile;
