@@ -18,7 +18,7 @@ function Home() {
         <div className="section-label">Admin Side</div>
         <div className="grid-home">
 
-          <Link to="/admin-login" className="card">
+          <Link to="/admin/login" className="card">
             <div><span className="badge badge-admin">Admin</span></div>
             <div className="card-name">01 · Admin Login</div>
             <div className="card-desc">
@@ -26,7 +26,7 @@ function Home() {
             </div>
           </Link>
 
-          <Link to="/admin-dashboard" className="card">
+          <Link to="/admin/dashboard" className="card">
             <div><span className="badge badge-admin">Admin</span></div>
             <div className="card-name">02 · Admin Dashboard</div>
             <div className="card-desc">
@@ -34,13 +34,13 @@ function Home() {
             </div>
           </Link>
 
-          <Link to="/admin-user-records" className="card">
+          <Link to="/admin/users" className="card">
             <div><span className="badge badge-admin">Admin</span></div>
             <div className="card-name">03 · User Records</div>
             <div className="card-desc">Full user table with edit/delete, search, filter, pagination &amp; edit modal</div>
           </Link>
 
-          <Link to="/admin-add-blog" className="card">
+          <Link to="/admin/blog" className="card">
             <div><span className="badge badge-admin">Admin</span></div>
             <div className="card-name">04 · Add Blog Post</div>
             <div className="card-desc">Full post editor with toolbar, SEO preview, image upload, category &amp; tags</div>

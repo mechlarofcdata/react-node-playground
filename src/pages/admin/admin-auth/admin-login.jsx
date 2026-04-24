@@ -1,46 +1,71 @@
-
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./adminlogin.css";
 
-export default function AdminLogin() {
-    const [ username, setusername ] = useState("admin");
-    const [ password, setpassword ] = useState("admin123");
+function AdminLogin() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-    return (
-        <div className="admin-login-container">
-            <h1>Admin Panel</h1>
-            <p>Sign in to manage your platform</p>
-            <form>
-                <div id='username'>
-                    <label>Email Address</label>
-                    <input 
-                    id='username'
-                    type='text'
-                    name='username'
-                    placeholder='Enter Your Username'
-                    value={username}
-                    onChange={(e) => setusername(e.target.value)} //menaning of this line is that everytime the  e that is the event listener e.target.value abhi ka current value btata hai.
-                    />
-                </div>
+  const navigate = useNavigate();
 
-                <div id='password'>
-                    <label>Password</label>
-                    <input
-                    id='password'
-                    type='text'
-                    name='password'
-                    placeholder='Enter your Password'
-                    value={password}
-                    onChange={(e) => setpassword(e.target.value)}
-                    />
-                </div>
+  function handleSubmit() {
+    setError("");
 
-                
-                <Link to="/admin/dashboard">Go to Dashboard</Link>
-                <div id ="forgot-password">Forgot password?</div>
-            </form>
-        </div>
-    );
+    if (email === "" || password === "") {
+      setError("Please fill in all fields!");
+      return;
+    }
+
+    // credential check is being done here
+    if (email === "admin@mail.com" && password === "1234") {
+      localStorage.setItem("isLoggedIn", "true");
+
+      // redirect to admin dashboard
+      navigate("/admin/dashboard");
+    } else {
+      setError("Invalid credentials");
+    }
+  }
+
+  return (
+    <div className="admin-page">
+      <div className="admin-card">
+        <h1>AdminPanel</h1>
+        <p className="admin-subtitle">Sign in to manage your platform</p>
+        <div className="admin-badge">🔐 Administrator Access</div>
+
+        {error && <div className="admin-error-box">⚠ {error}</div>}
+
+        <label>Email address</label>
+        <input
+          type="email"
+          placeholder="admin@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <label>Password</label>
+        <input
+          type="password"
+          placeholder="••••••••"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button className="admin-submit-btn" onClick={handleSubmit}>
+          Sign in to Dashboard
+        </button>
+
+        <p className="admin-forgot">
+          Forgot password? <a href="#">Reset here</a>
+        </p>
+        <p className="admin-footer-note">
+          Protected access — authorized personnel only
+        </p>
+      </div>
+    </div>
+  );
 }
 
+export default AdminLogin;
