@@ -16,7 +16,7 @@ function Home() {
 
         {/* -------- Admin related cards -------- */}
         <div className="section-label">Admin Side</div>
-        <div className="grid">
+        <div className="grid-home">
 
           <Link to="/admin-login" className="card">
             <div><span className="badge badge-admin">Admin</span></div>
@@ -50,7 +50,7 @@ function Home() {
 
         {/* -------- User related cards -------- */}
         <div className="section-label">User Side</div>
-        <div className="grid">
+        <div className="grid-home">
 
           <Link to="/login" className="card">
             <div><span className="badge badge-user">User</span></div>
