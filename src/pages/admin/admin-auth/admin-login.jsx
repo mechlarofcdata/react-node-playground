@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import { useNavigate } from "react-router-dom";
 import "./adminlogin.css";
 
@@ -8,6 +9,13 @@ function AdminLogin() {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (isLoggedIn) {
+      navigate("/admin/dashboard");
+    }
+  }, []);
 
   function handleSubmit() {
     setError("");

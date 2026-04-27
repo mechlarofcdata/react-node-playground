@@ -1,7 +1,12 @@
 import { NavLink } from "react-router-dom";
 
 
+
 export default function Sidebar() {
+ 
+
+
+ 
   return (
     <aside className="dashboard-sidebar">
       <div className="dashboard-sidebar-logo">
@@ -13,7 +18,6 @@ export default function Sidebar() {
         <div className="dashboard-sidebar-name">AdminPanel</div>
       </div>
 
-     
       <div className="dashboard-nav-section">Main</div>
 
       <NavLink
@@ -60,15 +64,12 @@ export default function Sidebar() {
         Blog Posts
       </NavLink>
 
-      
       <div className="dashboard-nav-section">Settings</div>
 
       <NavLink
         to="#"
         className={({ isActive }) =>
-          isActive
-            ? "dashboard-nav-item"
-            : "dashboard-nav-item"
+          isActive ? "dashboard-nav-item" : "dashboard-nav-item"
         }
       >
         <svg viewBox="0 0 24 24">
@@ -77,7 +78,11 @@ export default function Sidebar() {
         Configuration
       </NavLink>
 
-      <NavLink to="/admin/" className="dashboard-nav-item">
+      <NavLink
+        to="/admin/login"
+        className="dashboard-nav-item"
+        onClick={() => localStorage.removeItem("isLoggedIn")}
+      >
         <svg viewBox="0 0 24 24">
           <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
           <path d="M16 17l5-5-5-5M21 12H9" />
